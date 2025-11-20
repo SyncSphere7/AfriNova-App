@@ -16,6 +16,8 @@ export interface Translations {
     next: string;
     submit: string;
     search: string;
+    changeLanguage: string;
+    selectLanguage: string;
   };
   nav: {
     home: string;
@@ -95,6 +97,8 @@ export const translations: Record<LanguageCode, Translations> = {
       next: 'Next',
       submit: 'Submit',
       search: 'Search',
+      changeLanguage: 'Change Language',
+      selectLanguage: 'Select Language',
     },
     nav: {
       home: 'Home',
@@ -403,6 +407,8 @@ export const translations: Record<LanguageCode, Translations> = {
       next: 'Próximo',
       submit: 'Enviar',
       search: 'Buscar',
+      changeLanguage: 'Alterar Idioma',
+      selectLanguage: 'Selecionar Idioma',
     },
     nav: {
       home: 'Início',
@@ -480,6 +486,8 @@ export const translations: Record<LanguageCode, Translations> = {
       next: 'Suivant',
       submit: 'Soumettre',
       search: 'Rechercher',
+      changeLanguage: 'Changer de Langue',
+      selectLanguage: 'Sélectionner la Langue',
     },
     nav: {
       home: 'Accueil',
@@ -1481,6 +1489,8 @@ export const translations: Record<LanguageCode, Translations> = {
       next: 'Inayofuata',
       submit: 'Wasilisha',
       search: 'Tafuta',
+      changeLanguage: 'Badilisha Lugha',
+      selectLanguage: 'Chagua Lugha',
     },
     nav: {
       home: 'Nyumbani',
@@ -1558,6 +1568,8 @@ export const translations: Record<LanguageCode, Translations> = {
       next: 'التالي',
       submit: 'إرسال',
       search: 'بحث',
+      changeLanguage: 'تغيير اللغة',
+      selectLanguage: 'اختر اللغة',
     },
     nav: {
       home: 'الرئيسية',
