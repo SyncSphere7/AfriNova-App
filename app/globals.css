@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 16% 83%;
+    --foreground: 0 0% 0%;
+    --card: 36 17% 91%;
+    --card-foreground: 0 0% 0%;
+    --popover: 36 17% 91%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 36 16% 83%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 36 17% 91%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 60%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 14 100% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 4 90% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 60%;
+    --input: 0 0% 60%;
+    --ring: 14 100% 60%;
+    --success: 123 38% 57%;
+    --warning: 45 100% 51%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0px;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 90%;
+    --card: 0 0% 16%;
+    --card-foreground: 0 0% 90%;
+    --popover: 0 0% 16%;
+    --popover-foreground: 0 0% 90%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 0 0% 90%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 14 100% 68%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 4 84% 65%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 14 100% 68%;
+    --success: 123 43% 70%;
+    --warning: 45 100% 60%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    border-radius: 0;
+  }
+
+  /* Body: system sans-serif as default for readability */
+  body {
+    @apply bg-background text-foreground;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  /* Headings: pixel font for retro aesthetic */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-pixel), monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Utility classes (already configured in tailwind.config.ts) */
+  .font-sans {
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .font-pixel {
+    font-family: var(--font-pixel), monospace;
+  }
+
+  .font-mono {
+    font-family: 'Courier New', monospace;
+  }
+}
