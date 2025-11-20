@@ -1220,6 +1220,7 @@ export interface GenerationRequest {
   techStack?: string[];
   maxTokens?: number;
   temperature?: number;
+  userLanguage?: string; // User's preferred language for code comments (en, fr, sw, ar, pt)
 }
 
 export interface GenerationResponse {

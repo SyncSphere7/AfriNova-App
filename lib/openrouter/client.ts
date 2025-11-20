@@ -1,6 +1,8 @@
 import { AI_MODELS, AGENT_SYSTEM_PROMPTS, type AgentType, type GenerationRequest, type GenerationResponse } from './models';
 import { analyzeProjectComplexity, getOptimalMaxTokens } from './model-router';
+import { getMultilingualInstructions } from './language-prompts';
 import type { TechStack } from '@/types';
+import type { LanguageCode } from '@/lib/i18n/languages';
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
@@ -12,10 +14,17 @@ export async function generateWithAgent(request: GenerationRequest): Promise<Gen
     techStack = [],
     maxTokens = 16000, // IMPROVED: Increased from 4000 to 16000 for larger code generation
     temperature = 0.7,
+    userLanguage = 'en', // MULTILINGUAL: Default to English
   } = request;
 
   const model = AI_MODELS[agentType];
-  const systemPrompt = AGENT_SYSTEM_PROMPTS[agentType];
+  let systemPrompt = AGENT_SYSTEM_PROMPTS[agentType];
+
+  // MULTILINGUAL: Add language-specific instructions to system prompt
+  if (userLanguage && userLanguage !== 'en') {
+    const multilingualInstructions = getMultilingualInstructions(userLanguage as LanguageCode);
+    systemPrompt = systemPrompt + multilingualInstructions;
+  }
 
   let fullPrompt = prompt;
 
@@ -70,7 +79,8 @@ export async function generateWithAgent(request: GenerationRequest): Promise<Gen
 export async function orchestrateGeneration(
   projectPrompt: string,
   techStack: string[],
-  techStackObject?: TechStack
+  techStackObject?: TechStack,
+  userLanguage?: LanguageCode // MULTILINGUAL: User's preferred language
 ): Promise<Record<AgentType, GenerationResponse>> {
   const results: Partial<Record<AgentType, GenerationResponse>> = {};
 
@@ -104,6 +114,7 @@ export async function orchestrateGeneration(
       techStack,
       maxTokens: optimalTokens,
       temperature: agentType === 'TESTING' ? 0.5 : 0.7,
+      userLanguage, // MULTILINGUAL: Pass user's language to agent
     });
 
     results[agentType] = result;

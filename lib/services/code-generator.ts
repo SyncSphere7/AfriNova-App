@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { generateWithAgent, orchestrateGeneration } from '@/lib/openrouter/client';
 import type { AgentType } from '@/lib/openrouter/models';
+import type { LanguageCode } from '@/lib/i18n/languages';
 
 export interface CodeGenerationRequest {
   projectId: string;
@@ -8,6 +9,7 @@ export interface CodeGenerationRequest {
   prompt: string;
   techStack: string[];
   enhancedPrompt?: string;
+  userLanguage?: LanguageCode; // MULTILINGUAL: User's preferred language
 }
 
 export interface GeneratedCodeStructure {
@@ -41,7 +43,7 @@ export interface GeneratedCodeStructure {
 export async function generateProjectCode(
   request: CodeGenerationRequest
 ): Promise<GeneratedCodeStructure> {
-  const { projectId, userId, prompt, techStack, enhancedPrompt } = request;
+  const { projectId, userId, prompt, techStack, enhancedPrompt, userLanguage = 'en' } = request;
 
   const supabase = createClient();
 
@@ -82,7 +84,9 @@ export async function generateProjectCode(
 
     const results = await orchestrateGeneration(
       enhancedPrompt || prompt,
-      techStack
+      techStack,
+      undefined, // techStackObject (optional)
+      userLanguage // MULTILINGUAL: Pass user's language to AI agents
     );
 
     await supabase
