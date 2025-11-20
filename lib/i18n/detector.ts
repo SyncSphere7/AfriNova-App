@@ -16,12 +16,12 @@ export interface GeolocationLanguageMap {
  * Focused on African countries for AfriNova
  */
 export const COUNTRY_LANGUAGE_MAP: GeolocationLanguageMap = {
-  // East Africa (Swahili)
-  KE: ['sw', 'en'], // Kenya
-  TZ: ['sw', 'en'], // Tanzania
-  UG: ['sw', 'en'], // Uganda
-  RW: ['sw', 'fr', 'en'], // Rwanda
-  BI: ['sw', 'fr'], // Burundi
+  // East Africa
+  KE: ['sw', 'en'], // Kenya - Swahili is official language
+  TZ: ['sw', 'en'], // Tanzania - Swahili is official language
+  UG: ['en'], // Uganda - English is main language (NOT Swahili)
+  RW: ['en', 'fr'], // Rwanda - English & French (NOT Swahili)
+  BI: ['fr'], // Burundi - French primary
   
   // West Africa (French/English)
   NG: ['en'], // Nigeria
