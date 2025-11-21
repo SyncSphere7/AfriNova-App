@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/check-trial-endings",
       "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/check-system-health",
+      "schedule": "*/15 * * * *"
     }
   ]
 }

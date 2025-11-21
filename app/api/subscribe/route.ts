@@ -6,6 +6,8 @@ import {
   type PaymentProvider,
   type PaymentMethod 
 } from '@/lib/services/payment-providers';
+import { createPerformanceMiddleware } from '@/lib/services/performance-monitoring';
+import { createErrorResponse } from '@/lib/services/error-tracking';
 
 // Subscription plans configuration
 const SUBSCRIPTION_PLANS = {
@@ -41,6 +43,9 @@ const SUBSCRIPTION_PLANS = {
  * Currently: Pesapal (active), Stripe & PayPal (coming next week)
  */
 export async function POST(request: Request) {
+  const perf = createPerformanceMiddleware('/api/subscribe');
+  const tracker = perf.start('POST', undefined);
+
   try {
     const supabase = await createClient();
 
@@ -51,8 +56,12 @@ export async function POST(request: Request) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
+      await tracker.end(401);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Update tracker with user ID
+    tracker['userId'] = user.id;
 
     const { 
       plan, 
@@ -173,6 +182,13 @@ export async function POST(request: Request) {
         })
         .eq('id', subscription.id);
 
+      await tracker.end(200, {
+        plan,
+        billingCycle,
+        provider: paymentIntent.provider,
+        hasRedirect: !!paymentIntent.redirectUrl,
+      });
+
       return NextResponse.json({
         success: true,
         subscription: {
@@ -192,6 +208,13 @@ export async function POST(request: Request) {
     } catch (paymentError: any) {
       console.error('Payment creation error:', paymentError);
 
+      await tracker.end(200, {
+        plan,
+        billingCycle,
+        paymentFailed: true,
+        error: paymentError.message,
+      });
+
       // If payment fails, still return subscription with trial
       return NextResponse.json({
         success: true,
@@ -207,10 +230,7 @@ export async function POST(request: Request) {
     }
   } catch (error: any) {
     console.error('Subscribe error:', error);
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    );
+    return await createErrorResponse(error, request, 500, tracker['userId']);
   }
 }
 
