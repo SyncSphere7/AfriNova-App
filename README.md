@@ -19,9 +19,9 @@
 
 ## 🌍 About AfriNova
 
-**AfriNova** is an AI-powered platform that transforms simple text descriptions into complete, production-ready web applications. Built for developers, entrepreneurs, and businesses across Africa and beyond, AfriNova democratizes software development by making it accessible, affordable, and fast.
+**AfriNova** is an AI-powered platform that transforms simple text descriptions into complete, production-ready web applications. A product of **[SyncSphere LLC](https://www.syncsphereofficial.com/)** (USA), AfriNova was specifically designed to empower developers, entrepreneurs, and businesses across Africa by eliminating geographical limitations, infrastructure barriers, and traditional software development challenges.
 
-**Our Mission**: Empower 1 million developers and entrepreneurs across Africa to build world-class applications without traditional barriers.
+**Our Mission**: Empower 1 million developers and entrepreneurs across Africa to build world-class applications without traditional barriers—backed by US-based innovation and support.
 
 ---
 
@@ -879,10 +879,18 @@ Special thanks to the open-source community for making this possible! 💚
 
 <div align="center">
 
-**Built with ❤️ in Kampala, Uganda 🇺🇬**
+### 🏢 A Product of SyncSphere LLC
 
-[Website](https://afrinova.vercel.app) • [Twitter](https://twitter.com/AfriNovaTech) • [LinkedIn](https://linkedin.com/company/afrinova) • [GitHub](https://github.com/SyncSphere7/AfriNova-App)
+**AfriNova** is proudly developed and maintained by **[SyncSphere LLC](https://www.syncsphereofficial.com/)**, a US-based technology company committed to democratizing software development and empowering innovation globally—with a special focus on breaking barriers for African developers and entrepreneurs.
 
-© 2025 AfriNova Technologies Ltd. All rights reserved.
+---
+
+**Explore More:**
+
+[AfriNova Platform](https://afrinova.vercel.app) • [SyncSphere Website](https://www.syncsphereofficial.com/) • [Twitter](https://twitter.com/AfriNovaTech) • [LinkedIn](https://linkedin.com/company/afrinova) • [GitHub](https://github.com/SyncSphere7/AfriNova-App)
+
+---
+
+© 2025 **SyncSphere LLC**. All rights reserved.
 
 </div>
