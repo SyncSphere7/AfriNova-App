@@ -2,9 +2,22 @@
 
 ![AfriNova Logo](./public/AfriNova_new_logo-transparent.png)
 
-# AfriNova - AI-Powered Application Generator
+# AfriNova - AI-Powered Application Gene### 📱 **Native Mobile App Development** 🆕
 
-### Build Production-Ready Web Applications in Minutes with AI
+Build iOS & Android apps with AI-powered code generation:
+- **React Native (Expo)** - Beginner-friendly mobile framework
+- **React Native (CLI)** - Full control for advanced developers
+- **Flutter** - Google's cross-platform framework
+- **Ionic** - Web technologies for mobile apps
+- **All 7 Payment Gateways** - Pesapal, Stripe, PayPal, Flutterwave, M-Pesa, Paystack, Square
+- **Mobile Money Support** - M-Pesa, Airtel Money, MTN, Tigo Pesa
+- **Push Notifications** - Firebase Cloud Messaging support
+- **Camera & GPS** - Native device feature integration
+- **Offline Support** - Local storage and sync
+- **App Store Ready** - Generate production-ready code
+- **Complete Guide** - Step-by-step publishing instructions
+
+👉 **[Read Mobile App Guide](MOBILE_APP_GUIDE.md)** for building and publishing your appsd Production-Ready Web Applications in Minutes with AI
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Next.js](https://img.shields.io/badge/Next.js-13.5-black)](https://nextjs.org/)

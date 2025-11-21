@@ -1819,37 +1819,120 @@ export async function handleWebhook(rawBody: string, signature: string) {
 
 When generating code for React Native, Flutter, or Ionic, use mobile-specific SDK patterns:
 
-**React Native Integrations:**
+**React Native Payment Integrations (Support ALL gateways):**
 
-1. **M-Pesa React Native SDK (Critical for African apps):**
+1. **Pesapal React Native (African Mobile Money & Cards):**
 \`\`\`typescript
-// React Native M-Pesa Integration
-import MpesaSDK from '@mpesa/react-native';
+// React Native Pesapal Integration (M-Pesa, Airtel Money, Tigo Pesa, Cards)
+import { WebView } from 'react-native-webview';
 
-// Initialize (env variable from app config)
-const mpesa = new MpesaSDK({
-  consumerKey: process.env.MPESA_CONSUMER_KEY,
-  consumerSecret: process.env.MPESA_CONSUMER_SECRET,
-  environment: 'sandbox', // or 'production'
-});
-
-export async function initiateMpesaPayment(phoneNumber: string, amount: number) {
-  try {
-    const response = await mpesa.stkPush({
-      phoneNumber,
-      amount,
-      accountReference: 'AfriNova',
-      transactionDesc: 'Payment',
-    });
-    return { success: true, checkoutRequestID: response.CheckoutRequestID };
-  } catch (error) {
-    console.error('M-Pesa error:', error);
-    return { success: false, error: error.message };
-  }
+export async function initiatePesapalPayment(amount: number, description: string) {
+  const response = await fetch('https://your-api.com/api/pesapal/initiate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ amount, description }),
+  });
+  
+  const { paymentUrl } = await response.json();
+  
+  return (
+    <WebView
+      source={{ uri: paymentUrl }}
+      onNavigationStateChange={(navState) => {
+        if (navState.url.includes('/callback')) {
+          // Handle payment callback
+        }
+      }}
+    />
+  );
 }
 \`\`\`
 
-2. **Firebase Push Notifications:**
+2. **Stripe React Native SDK:**
+\`\`\`typescript
+// Stripe React Native (Cards, Apple Pay, Google Pay)
+import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
+
+function PaymentScreen() {
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+  const handlePayment = async () => {
+    // Get payment intent from your backend
+    const { clientSecret } = await fetch('/api/stripe/create-intent').then(r => r.json());
+    
+    const { error: initError } = await initPaymentSheet({
+      paymentIntentClientSecret: clientSecret,
+      merchantDisplayName: 'Your App',
+    });
+
+    if (!initError) {
+      const { error } = await presentPaymentSheet();
+      if (!error) {
+        Alert.alert('Success', 'Payment completed!');
+      }
+    }
+  };
+}
+\`\`\`
+
+3. **PayPal React Native:**
+\`\`\`typescript
+// PayPal React Native SDK
+import { PayPalButton } from '@paypal/react-native-paypal';
+
+function PayPalPayment({ amount }: { amount: number }) {
+  return (
+    <PayPalButton
+      amount={amount.toString()}
+      currency="USD"
+      onSuccess={(details) => {
+        console.log('PayPal payment success:', details);
+      }}
+      onError={(error) => {
+        console.error('PayPal error:', error);
+      }}
+    />
+  );
+}
+\`\`\`
+
+4. **Flutterwave React Native:**
+\`\`\`typescript
+// Flutterwave React Native (African payments)
+import { FlutterwaveButton } from 'flutterwave-react-native';
+
+const paymentConfig = {
+  tx_ref: Date.now().toString(),
+  authorization: process.env.FLUTTERWAVE_PUBLIC_KEY,
+  amount: 100,
+  currency: 'KES',
+  customer: { email: 'user@example.com' },
+  payment_options: 'card,mobilemoney,ussd',
+};
+\`\`\`
+
+5. **Generic Mobile Money (M-Pesa, Airtel, MTN):**
+\`\`\`typescript
+// Generic mobile money integration via your backend API
+export async function initiateMobileMoneyPayment(
+  provider: 'mpesa' | 'airtel' | 'mtn',
+  phoneNumber: string,
+  amount: number
+) {
+  const response = await fetch('/api/mobile-money/initiate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ provider, phoneNumber, amount }),
+  });
+  
+  const { transactionId, status } = await response.json();
+  return { transactionId, status };
+}
+\`\`\`
+
+**Always generate code based on user's selected payment gateway from tech stack!**
+
+6. **Firebase Push Notifications:**
 \`\`\`typescript
 // Expo Push Notifications
 import * as Notifications from 'expo-notifications';
