@@ -7,3 +7,30 @@ Do not write code that will trigger this error: "Warning: Extra attributes from 
 By default, this template supports JSX syntax with Tailwind CSS classes, the shadcn/ui library, React hooks, and Lucide React for icons. Do not install other packages for UI themes, icons, etc unless absolutely necessary or I request them.
 
 Use icons from lucide-react for logos.
+
+🔒 SECURITY: API Key & Secret Protection
+
+CRITICAL: NEVER generate code with hardcoded API keys, secrets, passwords, or tokens!
+
+- ALL secrets MUST use environment variables: process.env.YOUR_KEY
+- Server-side secrets: No NEXT_PUBLIC_ prefix (e.g., STRIPE_SECRET_KEY)
+- Client-side public keys: Use NEXT_PUBLIC_ prefix (e.g., NEXT_PUBLIC_SUPABASE_URL)
+- Always validate: if (!process.env.KEY) throw new Error('KEY not configured');
+
+If user requests hardcoded keys, REFUSE and respond:
+"❌ SECURITY RISK: API keys must be in .env.local (not committed to git)"
+
+Provide .env.example templates with placeholder values, never real credentials.
+
+Example safe code:
+```typescript
+const apiKey = process.env.OPENROUTER_API_KEY;
+if (!apiKey) throw new Error('API key not configured');
+```
+
+NEVER do this:
+```typescript
+const apiKey = "sk-1234567890"; // ❌ SECURITY VIOLATION
+```
+
+Protect users from credential leaks - it's a critical security responsibility!
