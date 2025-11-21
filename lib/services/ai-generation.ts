@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/client';
+import { scanForSecrets, formatScanResults, type SecretScanResult } from '@/lib/utils/secret-scanner';
 import type { Project } from '@/types';
 
 export interface GenerationResult {
@@ -10,6 +11,12 @@ export interface GenerationResult {
   tokensUsed?: number;
   model?: string;
   error?: string;
+  securityScan?: {
+    hasSecrets: boolean;
+    warnings: SecretScanResult['warnings'];
+    score: SecretScanResult['score'];
+    message: string;
+  };
 }
 
 export async function generateCode(
@@ -48,7 +55,60 @@ export async function generateCode(
     throw new Error(errorData.error || 'Failed to generate code');
   }
 
-  return await response.json();
+  const result = await response.json();
+
+  // 🔒 SECURITY: Scan generated code for potential secrets
+  if (result.success && result.code?.files) {
+    let allCode = '';
+    result.code.files.forEach((file: { path: string; content: string }) => {
+      allCode += `\n// File: ${file.path}\n${file.content}\n`;
+    });
+
+    const scanResult = scanForSecrets(allCode);
+    
+    if (scanResult.hasSecrets) {
+      console.warn('⚠️ Security scan detected potential secrets in generated code:', scanResult);
+      
+      // Add security warnings to result
+      result.securityScan = {
+        hasSecrets: true,
+        warnings: scanResult.warnings,
+        score: scanResult.score,
+        message: formatScanResults(scanResult),
+      };
+
+      // Log to Supabase for monitoring
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        // Log security alert (optional - table may not exist yet)
+        const { error: alertError } = await supabase.from('security_alerts').insert({
+          user_id: user.id,
+          project_id: projectId,
+          alert_type: 'potential_secret_detected',
+          severity: scanResult.score,
+          details: {
+            warnings_count: scanResult.warnings.length,
+            patterns: scanResult.warnings.map(w => w.pattern),
+          },
+        });
+        
+        if (alertError) {
+          console.error('Failed to log security alert:', alertError);
+        }
+      }
+    } else {
+      result.securityScan = {
+        hasSecrets: false,
+        warnings: [],
+        score: 'safe',
+        message: '✅ No secrets detected. Code is safe!',
+      };
+    }
+  }
+
+  return result;
 }
 
 export async function updateProjectWithGeneration(
