@@ -391,7 +391,6 @@ export default function PublishPage() {
                   Set to 0 for free apps. Price in USD will be converted to buyer's currency.
                 </p>
               </div>
-              </div>
 
               <div>
                 <Label htmlFor="techStack">Tech Stack</Label>
@@ -443,7 +442,7 @@ export default function PublishPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-8">
@@ -462,6 +461,7 @@ export default function PublishPage() {
           <div className="text-xs text-muted-foreground uppercase">
             Downloads
           </div>
+        </Card>
         <Card className="border-2 border-foreground p-4 text-center">
           <DollarSign className="w-8 h-8 mx-auto mb-2 text-blue-500" />
           <div className="font-pixel text-2xl mb-1">

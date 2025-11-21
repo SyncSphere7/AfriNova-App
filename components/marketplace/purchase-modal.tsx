@@ -67,45 +67,45 @@ export function PurchaseModal({
         onClose();
       } else {
         // Paid app - initiate Pesapal payment
-        // In production: Call Pesapal API with user's currency
         const amountInUserCurrency = localPrice;
         
         toast({
-          title: '💳 Redirecting to Payment',
-          description: 'Please complete payment through Pesapal...',
+          title: '💳 Processing Payment',
+          description: 'Redirecting to secure payment gateway...',
         });
 
-        // Simulate Pesapal redirect
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // Call purchase API
+        const response = await fetch('/api/marketplace/purchase', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            appId: app.id,
+            amount: amountInUserCurrency,
+            currency: currency,
+            paymentMethod,
+            phoneNumber: paymentMethod === 'mobile' ? phoneNumber : undefined
+          })
+        });
 
-        // In production:
-        // const response = await fetch('/api/marketplace/purchase', {
-        //   method: 'POST',
-        //   body: JSON.stringify({
-        //     appId: app.id,
-        //     amount: amountInUserCurrency,
-        //     currency: currency,
-        //     paymentMethod,
-        //     phoneNumber: paymentMethod === 'mobile' ? phoneNumber : undefined
-        //   })
-        // });
-        // const { redirectUrl } = await response.json();
-        // window.location.href = redirectUrl;
+        const data = await response.json();
 
-        // Simulate success for demo
-        setTimeout(() => {
-          toast({
-            title: '🎉 Payment Successful!',
-            description: `${app.name} is now available in your library.`,
-          });
-          onSuccess?.();
-          onClose();
-        }, 3000);
+        if (!response.ok) {
+          throw new Error(data.error || 'Payment initiation failed');
+        }
+
+        if (data.redirectUrl) {
+          // Redirect to Pesapal payment page
+          window.location.href = data.redirectUrl;
+        } else {
+          throw new Error('No redirect URL received');
+        }
       }
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Failed to process purchase. Please try again.',
+        description: error instanceof Error ? error.message : 'Failed to process purchase',
         variant: 'destructive',
       });
     } finally {
