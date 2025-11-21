@@ -57,7 +57,7 @@ AfriNova doesn't just use one AI model—it leverages **10 specialized AI agents
 Get started instantly with pre-built templates:
 - 🛒 E-commerce Store (Stripe/PayPal/Pesapal)
 - 💼 SaaS Application (subscriptions, user management)
-- 📱 Mobile App (React Native)
+- 📱 **Mobile App (React Native, Flutter, Ionic)** 🆕
 - 📝 Blog Platform (CMS, comments)
 - 📊 Dashboard (analytics, charts)
 - 🌐 Landing Page (responsive, SEO-optimized)
@@ -122,7 +122,23 @@ Gamified coding education platform:
 - **Progress Tracking** - Track your learning journey
 - **Multiple Difficulty Levels** - Beginner to Advanced
 
-### 👥 **Real-Time Collaboration** 🆕
+### � **Native Mobile App Development** 🆕
+
+Build iOS & Android apps with AI-powered code generation:
+- **React Native (Expo)** - Beginner-friendly mobile framework
+- **React Native (CLI)** - Full control for advanced developers
+- **Flutter** - Google's cross-platform framework
+- **Ionic** - Web technologies for mobile apps
+- **M-Pesa Integration** - African mobile money built-in
+- **Push Notifications** - Firebase Cloud Messaging support
+- **Camera & GPS** - Native device feature integration
+- **Offline Support** - Local storage and sync
+- **App Store Ready** - Generate production-ready code
+- **Complete Guide** - Step-by-step publishing instructions
+
+👉 **[Read Mobile App Guide](MOBILE_APP_GUIDE.md)** for building and publishing your apps
+
+### �👥 **Real-Time Collaboration** 🆕
 
 Live code collaboration and pair programming:
 - **Shared Code Editor** - Write code together in real-time

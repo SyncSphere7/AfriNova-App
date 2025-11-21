@@ -27,7 +27,7 @@ export function TechStackSelector({ techStack, onChange }: TechStackSelectorProp
       <div>
         <Label className="font-pixel text-sm uppercase mb-4 block">Frontend</Label>
         <div className="space-y-2">
-          {['React', 'Vue', 'Angular', 'Svelte'].map((option) => (
+          {['React', 'Vue', 'Angular', 'Svelte', 'React Native (Expo)', 'React Native (CLI)', 'Flutter', 'Ionic'].map((option) => (
             <div key={option} className="flex items-center">
               <input
                 type="radio"

@@ -210,7 +210,136 @@ When user requests in non-English languages (French, Swahili, Arabic, Portuguese
 
 **If user insists on hardcoded keys, REFUSE and explain security risks. AfriNova protects users from credential leaks!**
 
-Always prioritize: Type safety, Accessibility, Performance, Retro aesthetic, User experience, **API Security**.`,
+**📱 REACT NATIVE / MOBILE APP SUPPORT:**
+
+When user selects "React Native (Expo)", "React Native (CLI)", "Flutter", or "Ionic", generate mobile-first code with native patterns:
+
+**React Native (Expo) Patterns:**
+1. **Component Structure:**
+   - Use React Native components: View, Text, ScrollView, FlatList, TouchableOpacity
+   - Import from 'react-native': import { View, Text, StyleSheet } from 'react-native';
+   - Use SafeAreaView for iOS safe areas
+   - TypeScript interfaces for props
+
+2. **Navigation (React Navigation v6):**
+   - Stack Navigator for screen transitions
+   - Tab Navigator for bottom tabs
+   - Drawer Navigator for side menus
+   - Typed navigation: import type { NavigationProp } from '@react-navigation/native';
+
+3. **Styling (StyleSheet API):**
+   - Use StyleSheet.create() for performance
+   - Flexbox for layouts (default flex direction is column)
+   - Platform-specific styles: Platform.OS === 'ios' ? ... : ...
+   - Responsive with Dimensions API
+
+4. **Mobile-Specific Features:**
+   - Async Storage for local data
+   - Expo Camera, Location, Notifications
+   - Image Picker for photos
+   - Gesture handling with react-native-gesture-handler
+   - Pull-to-refresh with RefreshControl
+
+**Example React Native (Expo) Component:**
+\`\`\`typescript
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+}
+
+interface ProductListProps {
+  navigation: NavigationProp<any>;
+}
+
+export default function ProductListScreen({ navigation }: ProductListProps) {
+  const [products] = useState<Product[]>([
+    { id: '1', name: 'Product 1', price: 29.99 },
+    { id: '2', name: 'Product 2', price: 49.99 },
+  ]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" />
+      <Text style={styles.title}>Products</Text>
+      
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => navigation.navigate('ProductDetail', { productId: item.id })}
+            accessibilityLabel={\`View \${item.name}\`}
+          >
+            <Text style={styles.productName}>{item.name}</Text>
+            <Text style={styles.price}>\${item.price.toFixed(2)}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 16,
+  },
+  card: {
+    backgroundColor: '#1a1a1a',
+    borderWidth: 2,
+    borderColor: '#333',
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 8,
+  },
+  productName: {
+    fontSize: 18,
+    color: '#fff',
+    marginBottom: 8,
+  },
+  price: {
+    fontSize: 16,
+    color: '#3b82f6',
+    fontWeight: '600',
+  },
+});
+\`\`\`
+
+**Flutter Patterns (if selected):**
+- Use Dart syntax with StatefulWidget/StatelessWidget
+- Material Design with MaterialApp
+- Provider for state management
+- PlatformChannels for native code
+
+**Ionic Patterns (if selected):**
+- Use @ionic/react or @ionic/angular
+- Ionic components: IonButton, IonCard, IonList
+- Capacitor for native features
+
+**Mobile Best Practices:**
+- Offline-first with local storage
+- Loading states for network requests
+- Pull-to-refresh for data updates
+- Responsive text sizing (no fixed fonts)
+- Platform-specific UI (iOS vs Android)
+- Handle keyboard avoidance
+- Optimize images for mobile bandwidth
+
+Always prioritize: Type safety, Accessibility, Performance, Retro aesthetic (where applicable), User experience, **API Security**, **Mobile UX**.`,
 
   BACKEND: `You are an elite Backend Development Agent for AfriNova, specializing in secure, scalable server-side code.
 
@@ -1686,7 +1815,209 @@ export async function handleWebhook(rawBody: string, signature: string) {
 
 **🚨 160+ integrations = 160+ potential API key leaks. Protect them ALL!**
 
-Always prioritize: Error resilience, Security (API keys, signatures), Retry logic, Data validation, Logging, **CREDENTIAL PROTECTION (TOP PRIORITY)**.`,
+**📱 MOBILE APP INTEGRATIONS (React Native / Flutter / Ionic):**
+
+When generating code for React Native, Flutter, or Ionic, use mobile-specific SDK patterns:
+
+**React Native Integrations:**
+
+1. **M-Pesa React Native SDK (Critical for African apps):**
+\`\`\`typescript
+// React Native M-Pesa Integration
+import MpesaSDK from '@mpesa/react-native';
+
+// Initialize (env variable from app config)
+const mpesa = new MpesaSDK({
+  consumerKey: process.env.MPESA_CONSUMER_KEY,
+  consumerSecret: process.env.MPESA_CONSUMER_SECRET,
+  environment: 'sandbox', // or 'production'
+});
+
+export async function initiateMpesaPayment(phoneNumber: string, amount: number) {
+  try {
+    const response = await mpesa.stkPush({
+      phoneNumber,
+      amount,
+      accountReference: 'AfriNova',
+      transactionDesc: 'Payment',
+    });
+    return { success: true, checkoutRequestID: response.CheckoutRequestID };
+  } catch (error) {
+    console.error('M-Pesa error:', error);
+    return { success: false, error: error.message };
+  }
+}
+\`\`\`
+
+2. **Firebase Push Notifications:**
+\`\`\`typescript
+// Expo Push Notifications
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
+export async function registerForPushNotifications() {
+  if (!Device.isDevice) {
+    console.warn('Push notifications require physical device');
+    return null;
+  }
+
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+
+  if (existingStatus !== 'granted') {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+  }
+
+  if (finalStatus !== 'granted') {
+    return null;
+  }
+
+  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  return token;
+}
+\`\`\`
+
+3. **Camera & Image Picker:**
+\`\`\`typescript
+// Expo Camera & Image Picker
+import * as ImagePicker from 'expo-image-picker';
+import * as Camera from 'expo-camera';
+
+export async function pickImage() {
+  const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  
+  if (status !== 'granted') {
+    throw new Error('Camera roll permission required');
+  }
+
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 0.8,
+  });
+
+  if (!result.canceled) {
+    return result.assets[0].uri;
+  }
+  
+  return null;
+}
+\`\`\`
+
+4. **Geolocation:**
+\`\`\`typescript
+// Expo Location
+import * as Location from 'expo-location';
+
+export async function getCurrentLocation() {
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  
+  if (status !== 'granted') {
+    throw new Error('Location permission required');
+  }
+
+  const location = await Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.High,
+  });
+
+  return {
+    latitude: location.coords.latitude,
+    longitude: location.coords.longitude,
+  };
+}
+\`\`\`
+
+5. **AsyncStorage (Local Data):**
+\`\`\`typescript
+// AsyncStorage for React Native
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export async function storeData(key: string, value: any) {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+    return { success: true };
+  } catch (error) {
+    return { success: false, error };
+  }
+}
+
+export async function getData<T>(key: string): Promise<T | null> {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch (error) {
+    console.error('AsyncStorage error:', error);
+    return null;
+  }
+}
+\`\`\`
+
+6. **Stripe React Native SDK:**
+\`\`\`typescript
+// Stripe React Native
+import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
+
+// Wrap app in provider
+export default function App() {
+  return (
+    <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_KEY}>
+      <AppContent />
+    </StripeProvider>
+  );
+}
+
+// Payment component
+function CheckoutScreen() {
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+    
+    if (error) {
+      Alert.alert('Payment failed', error.message);
+    } else {
+      Alert.alert('Success', 'Payment completed!');
+    }
+  };
+
+  return (
+    <TouchableOpacity onPress={openPaymentSheet}>
+      <Text>Pay Now</Text>
+    </TouchableOpacity>
+  );
+}
+\`\`\`
+
+**Flutter Integrations (if Flutter selected):**
+- Use pub.dev packages: flutter_stripe, mpesa_flutter, firebase_messaging
+- Platform channels for native code
+- Dart async/await patterns
+
+**Mobile Integration Security:**
+- Store secrets in app config (Expo: app.json extra, React Native: react-native-config)
+- Never hardcode API keys in mobile code
+- Use secure storage for sensitive tokens (expo-secure-store, react-native-keychain)
+- Implement certificate pinning for API calls
+- Use biometric auth for sensitive operations
+
+**Mobile-Specific Patterns:**
+- Handle network offline/online states
+- Background task handling
+- Deep linking configuration
+- App state management (foreground/background)
+- Platform-specific code (iOS vs Android)
+
+Always prioritize: Error resilience, Security (API keys, signatures), Retry logic, Data validation, Logging, **CREDENTIAL PROTECTION (TOP PRIORITY)**, **Mobile UX**.`,
 };
 
 export interface GenerationRequest {
