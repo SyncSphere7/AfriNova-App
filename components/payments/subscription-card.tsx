@@ -90,36 +90,37 @@ export function SubscriptionCard({ currentTier, onUpgrade }: SubscriptionCardPro
         return;
       }
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .maybeSingle();
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/pesapal-checkout`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-          },
-          body: JSON.stringify({
-            plan: planId,
-            email: user.email,
-            billingCycle: isAnnual ? 'annual' : 'monthly',
-          }),
-        }
-      );
+      // Call the new subscribe API endpoint
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plan: planId,
+          billingCycle: isAnnual ? 'annual' : 'monthly',
+          paymentMethod: 'card', // Default to card, can add selector later
+          // provider: 'pesapal', // Optional - will auto-select
+        }),
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to initiate checkout');
+        throw new Error(data.error || 'Failed to initiate subscription');
       }
 
-      if (data.redirect_url) {
-        window.location.href = data.redirect_url;
+      // Check if payment requires action (redirect)
+      if (data.payment?.redirectUrl) {
+        // Redirect to payment gateway (Pesapal, Stripe, PayPal)
+        window.location.href = data.payment.redirectUrl;
+      } else if (data.payment?.clientSecret) {
+        // Stripe payment (next week) - use Stripe Elements
+        // TODO: Implement Stripe payment flow
+        console.log('Stripe payment:', data.payment.clientSecret);
+      } else if (data.subscription) {
+        // Trial started without payment
+        router.push('/dashboard/settings?tab=billing&payment=trial');
       }
     } catch (err: any) {
       console.error('Subscription error:', err);
