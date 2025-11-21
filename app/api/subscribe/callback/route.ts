@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { verifyPayment, type PaymentProvider } from '@/lib/services/payment-providers';
+import { sendSubscriptionConfirmationEmail } from '@/lib/services/email-sender';
 
 /**
  * GET /api/subscribe/callback
@@ -94,8 +95,27 @@ export async function GET(request: NextRequest) {
           })
           .eq('id', subscription.user_id);
 
-        // TODO: Send confirmation email (next task)
-        console.log(`Subscription ${subscriptionId} activated for user ${subscription.user_id}`);
+        // Get user email and profile for confirmation email
+        const { data: { user } } = await supabase.auth.admin.getUserById(subscription.user_id);
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', subscription.user_id)
+          .single();
+
+        // Send confirmation email (async, don't wait)
+        if (user?.email) {
+          const amount = verification.amount || 0;
+          sendSubscriptionConfirmationEmail(
+            user.email,
+            profile?.full_name || 'there',
+            subscription.tier,
+            subscription.billing_cycle || 'monthly',
+            amount
+          ).catch(err => console.error('Failed to send confirmation email:', err));
+        }
+
+        console.log(`✅ Subscription ${subscriptionId} activated for user ${subscription.user_id}`);
 
         // Redirect to success page
         return NextResponse.redirect(

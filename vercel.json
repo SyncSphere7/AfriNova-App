@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/process-emails",
+      "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/cron/check-trial-endings",
+      "schedule": "0 10 * * *"
+    }
+  ]
+}
