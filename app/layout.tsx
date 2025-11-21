@@ -5,6 +5,7 @@ import { Press_Start_2P } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { SessionProvider } from '@/components/auth/session-provider';
 import { I18nProvider } from '@/lib/i18n/context';
+import { CurrencyProvider } from '@/lib/utils/currency-context';
 import { PWAInstallPrompt } from '@/components/shared/pwa-install-prompt';
 import { useEffect } from 'react';
 
@@ -67,10 +68,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
-            <SessionProvider>
-              {children}
-              <PWAInstallPrompt />
-            </SessionProvider>
+            <CurrencyProvider>
+              <SessionProvider>
+                {children}
+                <PWAInstallPrompt />
+              </SessionProvider>
+            </CurrencyProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>

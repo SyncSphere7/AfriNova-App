@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { LanguageSwitcher } from '@/components/shared/language-switcher';
+import { CurrencySwitcher } from '@/components/shared/currency-switcher';
 import { useI18n } from '@/lib/i18n/context';
 
 export function Navbar() {
@@ -54,6 +55,7 @@ export function Navbar() {
 
 					{/* Right-side controls */}
 					<div className="flex items-center gap-2">
+						<CurrencySwitcher />
 						<LanguageSwitcher />
 						<ThemeToggle />
 						<Link href="/auth/login" className="hidden sm:block">

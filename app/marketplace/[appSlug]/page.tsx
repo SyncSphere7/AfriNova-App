@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewCard, ReviewSummary } from '@/components/marketplace/review-card';
 import { PurchaseModal } from '@/components/marketplace/purchase-modal';
+import { PriceDisplay } from '@/components/marketplace/price-display';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Star,
@@ -165,19 +166,16 @@ export default function AppPage({ params }: AppPageProps) {
               </>
             ) : (
               <>
-                <div className="mb-4">
-                  {app.is_free ? (
-                    <div className="font-pixel text-3xl text-green-500 text-center">
-                      FREE
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <div className="font-pixel text-3xl">
-                        {app.currency} {app.price.toFixed(2)}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        One-time payment
-                      </div>
+                <div className="mb-4 text-center">
+                  <PriceDisplay 
+                    priceUSD={app.price}
+                    isFree={app.is_free}
+                    showCode={true}
+                    className="font-pixel text-3xl"
+                  />
+                  {!app.is_free && (
+                    <div className="text-sm text-muted-foreground mt-2">
+                      One-time payment • Powered by Pesapal
                     </div>
                   )}
                 </div>

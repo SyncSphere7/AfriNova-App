@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Star, Download, ShoppingCart, ExternalLink } from 'lucide-react';
+import { PriceDisplay } from './price-display';
 
 interface AppCardProps {
   app: MarketplaceApp;
@@ -98,17 +99,11 @@ export function AppCard({ app, showPurchaseButton = true }: AppCardProps) {
 
         {/* Price & Action */}
         <div className="flex items-center justify-between pt-3 border-t-2 border-foreground">
-          <div>
-            {app.is_free ? (
-              <span className="font-pixel text-lg text-green-500">FREE</span>
-            ) : (
-              <div>
-                <span className="font-pixel text-lg">
-                  {app.currency} {app.price.toFixed(2)}
-                </span>
-              </div>
-            )}
-          </div>
+          <PriceDisplay 
+            priceUSD={app.price}
+            isFree={app.is_free}
+            className="font-pixel text-lg"
+          />
 
           {showPurchaseButton && (
             <Link href={`/marketplace/${app.slug}`}>

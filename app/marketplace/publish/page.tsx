@@ -21,6 +21,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { useCurrency } from '@/lib/utils/currency-context';
+import { PriceDisplay } from '@/components/marketplace/price-display';
 import {
   Select,
   SelectContent,
@@ -73,6 +75,7 @@ const CATEGORIES: { value: AppCategory; label: string; icon: string }[] = [
 ];
 
 export default function PublishPage() {
+  const { currency, formatPrice } = useCurrency();
   const [apps, setApps] = useState<MarketplaceApp[]>([]);
   const [stats, setStats] = useState({
     totalApps: 0,
@@ -367,9 +370,8 @@ export default function PublishPage() {
                   />
                 </div>
               </div>
-
               <div>
-                <Label htmlFor="price">Price (KES)</Label>
+                <Label htmlFor="price">Price (USD)</Label>
                 <Input
                   id="price"
                   type="number"
@@ -383,11 +385,12 @@ export default function PublishPage() {
                   }
                   placeholder="0"
                   min="0"
-                  step="100"
+                  step="1"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  Set to 0 for free apps
+                  Set to 0 for free apps. Price in USD will be converted to buyer's currency.
                 </p>
+              </div>
               </div>
 
               <div>
@@ -440,7 +443,7 @@ export default function PublishPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
+      
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-8">
@@ -459,14 +462,13 @@ export default function PublishPage() {
           <div className="text-xs text-muted-foreground uppercase">
             Downloads
           </div>
-        </Card>
         <Card className="border-2 border-foreground p-4 text-center">
           <DollarSign className="w-8 h-8 mx-auto mb-2 text-blue-500" />
           <div className="font-pixel text-2xl mb-1">
-            {stats.totalRevenue.toLocaleString()}
+            {formatPrice(stats.totalRevenue, true)}
           </div>
           <div className="text-xs text-muted-foreground uppercase">
-            Revenue (KES)
+            Revenue
           </div>
         </Card>
         <Card className="border-2 border-foreground p-4 text-center">
@@ -536,11 +538,11 @@ export default function PublishPage() {
                   </TableCell>
                   <TableCell>{getStatusBadge(app.status)}</TableCell>
                   <TableCell className="text-right font-mono">
-                    {app.is_free ? (
-                      <span className="text-green-500 font-pixel">FREE</span>
-                    ) : (
-                      `${app.currency} ${app.price.toLocaleString()}`
-                    )}
+                    <PriceDisplay 
+                      priceUSD={app.price}
+                      isFree={app.is_free}
+                      showCode={false}
+                    />
                   </TableCell>
                   <TableCell className="text-right font-mono">
                     {app.rating_average > 0 ? (

@@ -1,5 +1,6 @@
 -- Seed Marketplace Apps
--- 10+ diverse app templates across all categories
+-- 12 diverse app templates across all categories
+-- Prices in USD (will be converted to user's local currency: KES, TZS, UGX, EUR, etc.)
 
 -- Get the first user as the seller (you'll need to update this with a real user ID)
 DO $$
@@ -23,7 +24,7 @@ BEGIN
     RETURNING id INTO seller_id;
   END IF;
 
-  -- 1. E-Commerce Store
+  -- 1. E-Commerce Store ($116 USD = ~15,000 KES)
   INSERT INTO marketplace_apps (
     seller_id, slug, name, tagline, description, icon, category, 
     tags, tech_stack, price, currency, is_free, status, 
@@ -38,8 +39,8 @@ BEGIN
     'ecommerce',
     ARRAY['ecommerce', 'store', 'shopping', 'stripe', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Stripe', 'Supabase'],
-    15000,
-    'KES',
+    116,
+    'USD',
     false,
     'approved',
     47,
@@ -78,7 +79,7 @@ BEGIN
     'saas',
     ARRAY['saas', 'dashboard', 'analytics', 'billing', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Recharts'],
-    18000,
+    140,
     'KES',
     false,
     'approved',
@@ -118,7 +119,7 @@ BEGIN
     'portfolio',
     ARRAY['portfolio', 'personal', 'developer', 'blog', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'MDX'],
-    5000,
+    39,
     'KES',
     false,
     'approved',
@@ -198,7 +199,7 @@ BEGIN
     'social',
     ARRAY['social', 'realtime', 'messaging', 'community', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase Realtime', 'WebRTC'],
-    20000,
+    155,
     'KES',
     false,
     'approved',
@@ -278,7 +279,7 @@ BEGIN
     'landing',
     ARRAY['landing', 'saas', 'marketing', 'conversion', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'React Hook Form'],
-    8000,
+    62,
     'KES',
     false,
     'approved',
@@ -318,7 +319,7 @@ BEGIN
     'mobile',
     ARRAY['mobile', 'react-native', 'expo', 'ios', 'android'],
     ARRAY['React Native', 'TypeScript', 'Expo', 'React Navigation', 'Zustand'],
-    12000,
+    93,
     'KES',
     false,
     'approved',
@@ -358,7 +359,7 @@ BEGIN
     'ai',
     ARRAY['ai', 'chatgpt', 'openai', 'chat', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'OpenAI', 'Vercel AI SDK'],
-    16000,
+    124,
     'KES',
     false,
     'approved',
@@ -398,7 +399,7 @@ BEGIN
     'dashboard',
     ARRAY['analytics', 'tracking', 'metrics', 'dashboard', 'realtime'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'ClickHouse', 'Recharts'],
-    22000,
+    170,
     'KES',
     false,
     'approved',
@@ -438,7 +439,7 @@ BEGIN
     'saas',
     ARRAY['crm', 'sales', 'kanban', 'contacts', 'nextjs'],
     ARRAY['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase', 'DnD Kit'],
-    19000,
+    147,
     'KES',
     false,
     'approved',

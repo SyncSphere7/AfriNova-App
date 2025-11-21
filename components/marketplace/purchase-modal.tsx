@@ -18,10 +18,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
+import { useCurrency } from '@/lib/utils/currency-context';
+import { convertToUSD } from '@/lib/utils/currency';
 import {
   ShoppingCart,
   CreditCard,
-  Smartphone,
   CheckCircle2,
   Loader2,
 } from 'lucide-react';
@@ -40,9 +41,13 @@ export function PurchaseModal({
   onSuccess,
 }: PurchaseModalProps) {
   const { toast } = useToast();
+  const { currency, convertPrice, formatPrice } = useCurrency();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card'>('mpesa');
+  const [paymentMethod, setPaymentMethod] = useState<'mobile' | 'card'>('mobile');
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  // Convert app price to user's currency
+  const localPrice = app.is_free ? 0 : convertPrice(app.price);
 
   const handlePurchase = async () => {
     setIsProcessing(true);
@@ -61,16 +66,33 @@ export function PurchaseModal({
         onSuccess?.();
         onClose();
       } else {
-        // Paid app - initiate payment
-        // In production: Call Pesapal API
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
+        // Paid app - initiate Pesapal payment
+        // In production: Call Pesapal API with user's currency
+        const amountInUserCurrency = localPrice;
+        
         toast({
-          title: '💳 Payment Initiated',
-          description: 'Please complete payment on your phone.',
+          title: '💳 Redirecting to Payment',
+          description: 'Please complete payment through Pesapal...',
         });
 
-        // Simulate payment success
+        // Simulate Pesapal redirect
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        // In production:
+        // const response = await fetch('/api/marketplace/purchase', {
+        //   method: 'POST',
+        //   body: JSON.stringify({
+        //     appId: app.id,
+        //     amount: amountInUserCurrency,
+        //     currency: currency,
+        //     paymentMethod,
+        //     phoneNumber: paymentMethod === 'mobile' ? phoneNumber : undefined
+        //   })
+        // });
+        // const { redirectUrl } = await response.json();
+        // window.location.href = redirectUrl;
+
+        // Simulate success for demo
         setTimeout(() => {
           toast({
             title: '🎉 Payment Successful!',
@@ -121,13 +143,13 @@ export function PurchaseModal({
                 <span className="font-pixel text-2xl text-green-500">FREE</span>
               ) : (
                 <span className="font-pixel text-2xl">
-                  {app.currency} {app.price.toFixed(2)}
+                  {formatPrice(localPrice, true)}
                 </span>
               )}
             </div>
             {!app.is_free && (
               <div className="text-xs text-muted-foreground">
-                One-time payment • Lifetime access
+                One-time payment • Lifetime access • Powered by Pesapal
               </div>
             )}
           </div>
@@ -140,22 +162,25 @@ export function PurchaseModal({
               </label>
 
               <button
-                onClick={() => setPaymentMethod('mpesa')}
+                onClick={() => setPaymentMethod('mobile')}
                 className={`w-full p-3 border-2 transition-all ${
-                  paymentMethod === 'mpesa'
+                  paymentMethod === 'mobile'
                     ? 'border-primary bg-primary'
                     : 'border-foreground hover:bg-muted'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Smartphone className="w-5 h-5" />
-                  <span className="font-medium">M-Pesa</span>
+                  <CreditCard className="w-5 h-5" />
+                  <span className="font-medium">Mobile Money</span>
                   <Badge
                     variant="outline"
                     className="ml-auto border uppercase font-pixel text-xs"
                   >
                     Recommended
                   </Badge>
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  M-Pesa, Airtel Money, Tigo Pesa
                 </div>
               </button>
 
@@ -171,21 +196,27 @@ export function PurchaseModal({
                   <CreditCard className="w-5 h-5" />
                   <span className="font-medium">Credit/Debit Card</span>
                 </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  Visa, Mastercard, Amex
+                </div>
               </button>
 
-              {/* Phone Number Input */}
-              {paymentMethod === 'mpesa' && (
+              {/* Phone Number Input for Mobile Money */}
+              {paymentMethod === 'mobile' && (
                 <div className="pt-2">
                   <label className="text-xs text-muted-foreground mb-1 block">
-                    M-Pesa Phone Number
+                    Mobile Number
                   </label>
                   <input
                     type="tel"
-                    placeholder="254712345678"
+                    placeholder={currency === 'KES' ? '254712345678' : 'Your phone number'}
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="w-full px-3 py-2 border-2 border-foreground bg-background font-mono"
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    You'll receive a payment prompt on your phone
+                  </p>
                 </div>
               )}
             </div>
@@ -216,7 +247,7 @@ export function PurchaseModal({
             </Button>
             <Button
               onClick={handlePurchase}
-              disabled={isProcessing || (!app.is_free && paymentMethod === 'mpesa' && !phoneNumber)}
+              disabled={isProcessing || (!app.is_free && paymentMethod === 'mobile' && !phoneNumber)}
               className="flex-1 border-2 uppercase font-pixel"
             >
               {isProcessing ? (

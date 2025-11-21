@@ -8,6 +8,8 @@
 import { AppCategory } from '@/lib/services/marketplace';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { useCurrency } from '@/lib/utils/currency-context';
+import { getLocalizedPriceTiers } from '@/lib/utils/currency';
 
 interface CategoryFilterProps {
   selectedCategory?: AppCategory;
@@ -84,13 +86,8 @@ export function PriceFilter({
   maxPrice,
   onPriceChange,
 }: PriceFilterProps) {
-  const priceRanges = [
-    { label: 'Free', min: 0, max: 0 },
-    { label: 'Under KES 5,000', min: 0, max: 5000 },
-    { label: 'KES 5,000 - 10,000', min: 5000, max: 10000 },
-    { label: 'KES 10,000 - 20,000', min: 10000, max: 20000 },
-    { label: 'Over KES 20,000', min: 20000, max: undefined },
-  ];
+  const { currency } = useCurrency();
+  const priceRanges = getLocalizedPriceTiers(currency);
 
   return (
     <Card className="border-2 border-foreground p-4">
