@@ -7,21 +7,13 @@ DO $$
 DECLARE
   seller_id uuid;
 BEGIN
-  -- Get first user or create a demo seller
-  SELECT id INTO seller_id FROM auth.users LIMIT 1;
+  -- Get first user from profiles (not auth.users directly)
+  -- If no users exist yet, use a placeholder UUID (you'll update it after creating your first user)
+  SELECT id INTO seller_id FROM public.profiles LIMIT 1;
   
   IF seller_id IS NULL THEN
-    -- Create demo seller if no users exist
-    INSERT INTO auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at)
-    VALUES (
-      gen_random_uuid(),
-      'seller@afrinova.com',
-      crypt('demo123', gen_salt('bf')),
-      now(),
-      now(),
-      now()
-    )
-    RETURNING id INTO seller_id;
+    -- Use a placeholder UUID - you can update seller_id later after creating your first user
+    seller_id := '00000000-0000-0000-0000-000000000000';
   END IF;
 
   -- 1. E-Commerce Store ($116 USD = ~15,000 KES)

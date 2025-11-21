@@ -101,12 +101,11 @@
 */
 
 -- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- ==================== COURSES ====================
 
 CREATE TABLE IF NOT EXISTS public.courses (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug text UNIQUE NOT NULL,
   title text NOT NULL,
   description text NOT NULL,
@@ -135,7 +134,7 @@ CREATE INDEX IF NOT EXISTS courses_order_idx ON public.courses(order_index);
 -- ==================== LESSONS ====================
 
 CREATE TABLE IF NOT EXISTS public.lessons (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id uuid REFERENCES public.courses(id) ON DELETE CASCADE NOT NULL,
   title text NOT NULL,
   slug text NOT NULL,
@@ -162,7 +161,7 @@ CREATE INDEX IF NOT EXISTS lessons_order_idx ON public.lessons(order_index);
 -- ==================== CHALLENGES ====================
 
 CREATE TABLE IF NOT EXISTS public.challenges (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   lesson_id uuid REFERENCES public.lessons(id) ON DELETE CASCADE NOT NULL,
   title text NOT NULL,
   description text NOT NULL,
@@ -222,7 +221,7 @@ CREATE INDEX IF NOT EXISTS user_progress_status_idx ON public.user_progress(stat
 -- ==================== ACHIEVEMENTS ====================
 
 CREATE TABLE IF NOT EXISTS public.achievements (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug text UNIQUE NOT NULL,
   title text NOT NULL,
   description text NOT NULL,
@@ -275,7 +274,7 @@ CREATE INDEX IF NOT EXISTS user_achievements_user_id_idx ON public.user_achievem
 -- ==================== CERTIFICATES ====================
 
 CREATE TABLE IF NOT EXISTS public.certificates (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   course_id uuid REFERENCES public.courses(id) ON DELETE CASCADE NOT NULL,
   certificate_number text UNIQUE NOT NULL,

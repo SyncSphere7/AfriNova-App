@@ -72,7 +72,8 @@
     - Add trigger for new user profile creation
 */
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- Use gen_random_uuid() instead of uuid-ossp extension
+-- gen_random_uuid() is built into PostgreSQL 13+ (Supabase uses PG 15)
 
 CREATE TABLE IF NOT EXISTS public.profiles (
   id uuid REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
@@ -87,7 +88,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 );
 
 CREATE TABLE IF NOT EXISTS public.projects (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   name text NOT NULL,
   description text,
@@ -103,7 +104,7 @@ CREATE TABLE IF NOT EXISTS public.projects (
 );
 
 CREATE TABLE IF NOT EXISTS public.generations (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id uuid REFERENCES public.projects(id) ON DELETE CASCADE NOT NULL,
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   prompt text NOT NULL,
@@ -118,7 +119,7 @@ CREATE TABLE IF NOT EXISTS public.generations (
 );
 
 CREATE TABLE IF NOT EXISTS public.subscriptions (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   stripe_subscription_id text UNIQUE,
   tier text NOT NULL CHECK (tier IN ('free', 'starter', 'growth', 'pro')),
@@ -132,7 +133,7 @@ CREATE TABLE IF NOT EXISTS public.subscriptions (
 );
 
 CREATE TABLE IF NOT EXISTS public.uploaded_files (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id uuid REFERENCES public.projects(id) ON DELETE CASCADE NOT NULL,
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   filename text NOT NULL,

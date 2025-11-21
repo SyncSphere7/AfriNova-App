@@ -35,7 +35,7 @@ CREATE TYPE purchase_status AS ENUM (
 
 -- Marketplace Apps
 CREATE TABLE marketplace_apps (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   seller_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   
   -- Basic Info
@@ -86,7 +86,7 @@ CREATE TABLE marketplace_apps (
 
 -- App Categories (for filtering)
 CREATE TABLE app_categories (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
@@ -97,7 +97,7 @@ CREATE TABLE app_categories (
 
 -- App Reviews
 CREATE TABLE app_reviews (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   app_id UUID REFERENCES marketplace_apps(id) ON DELETE CASCADE,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   
@@ -127,7 +127,7 @@ CREATE TABLE app_reviews (
 
 -- App Purchases
 CREATE TABLE app_purchases (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   app_id UUID REFERENCES marketplace_apps(id) ON DELETE CASCADE,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   
@@ -157,7 +157,7 @@ CREATE TABLE app_purchases (
 
 -- App Templates (Generated from AI)
 CREATE TABLE app_templates (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   app_id UUID REFERENCES marketplace_apps(id) ON DELETE CASCADE,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   
