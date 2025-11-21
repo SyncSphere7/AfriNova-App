@@ -98,13 +98,52 @@ Connect to the tools you already use:
 
 **And 130+ more** across 15+ categories!
 
-### 💳 **Flexible Payment Processing**
+### 💳 **App Marketplace** 🆕
 
-- **7 payment gateways** integrated out-of-the-box
-- **Mobile money support** (M-Pesa, Airtel Money, MTN Mobile Money)
-- **Automated invoicing** with PDF generation
-- **Subscription management** with dunning logic
-- **Multi-currency support** (USD, EUR, KES, UGX, TZS, GHS, NGN)
+Complete marketplace for buying and selling web applications:
+- **12+ Ready Templates** - E-commerce, SaaS, Dashboards, Portfolios
+- **Buy & Sell Apps** - Full marketplace with ratings and reviews
+- **Secure Payments** - Pesapal integration (M-Pesa, Airtel Money, Cards)
+- **16 Currencies** - Automatic conversion (USD, KES, TZS, UGX, EUR, GBP, etc.)
+- **Instant Downloads** - Get source code immediately after purchase
+- **Seller Dashboard** - Track sales, revenue, and app performance
+- **Rate Limiting** - 5 payments/minute, DoS protection
+- **Real-time Currency** - Auto-detect user location and convert prices
+
+### 🎓 **Learning Hub** 🆕
+
+Gamified coding education platform:
+- **Interactive Courses** - Learn Next.js, React, TypeScript, and more
+- **Hands-on Challenges** - Code exercises with instant feedback
+- **XP & Leveling System** - Earn points as you learn
+- **Achievement Badges** - Unlock rewards for milestones
+- **Leaderboards** - Compete with other learners
+- **Certificates** - Earn verified completion certificates
+- **Progress Tracking** - Track your learning journey
+- **Multiple Difficulty Levels** - Beginner to Advanced
+
+### 👥 **Real-Time Collaboration** 🆕
+
+Live code collaboration and pair programming:
+- **Shared Code Editor** - Write code together in real-time
+- **Live Cursors** - See where teammates are typing
+- **Voice Chat** - Built-in voice communication
+- **AI Suggestions** - Get AI help while collaborating
+- **Multiple Languages** - Support for all major languages
+- **Session Management** - Create, join, and manage rooms
+- **Code History** - Track all changes with timestamps
+- **Participant Colors** - Unique colors for each team member
+
+### 🔒 **Production Security** 🆕
+
+Enterprise-grade security features:
+- **Rate Limiting** - Protect all API endpoints from abuse
+- **Error Monitoring** - Comprehensive logging and tracking
+- **CORS Configuration** - Whitelist trusted domains
+- **Security Headers** - CSP, XSS, clickjacking protection
+- **Row Level Security** - Database-level authorization
+- **IP Tracking** - Monitor and block suspicious activity
+- **Health Checks** - System monitoring and alerts
 
 ### 🎨 **Retro Windows 95 Aesthetic**
 
@@ -150,6 +189,18 @@ Connect to the tools you already use:
 ### **Email & Communication**
 - 📧 **Resend** - Modern email API
 - 🎨 **React Email** - Email templates
+
+### **Security & Monitoring**
+- 🛡️ **Rate Limiting** - IP-based request throttling (5/min purchases, 30/min API)
+- 🔒 **CORS & Security Headers** - CSP, XSS protection, HSTS
+- 📊 **Error Monitoring** - Centralized logging with severity levels
+- 🚨 **Sentry** - Real-time error tracking (optional)
+- 🔐 **Row Level Security** - Database-level authorization
+
+### **Multi-Currency & Localization**
+- 💱 **Exchange Rate API** - Real-time currency conversion (16 currencies)
+- 🌍 **i18n** - English, French, Swahili support
+- 🌐 **Geolocation** - Auto-detect user location & currency
 
 ### **DevOps & Deployment**
 - ▲ **Vercel** - Edge deployment & CDN
@@ -206,10 +257,15 @@ Before you begin, ensure you have:
    # Resend (Required for emails)
    RESEND_API_KEY=your_resend_api_key
 
-   # Pesapal (Optional - for payments)
+   # Pesapal (Required for marketplace payments)
    PESAPAL_CONSUMER_KEY=your_pesapal_consumer_key
    PESAPAL_CONSUMER_SECRET=your_pesapal_consumer_secret
    PESAPAL_ENVIRONMENT=sandbox # or "live"
+   NEXT_PUBLIC_PESAPAL_IPN_URL=https://yourdomain.com/api/pesapal/ipn
+   NEXT_PUBLIC_PESAPAL_CALLBACK_URL=https://yourdomain.com/api/pesapal/callback
+
+   # Exchange Rate API (Required for multi-currency)
+   EXCHANGE_RATE_API_KEY=your_exchangerate_api_key
 
    # Stripe (Optional)
    STRIPE_SECRET_KEY=your_stripe_secret_key
@@ -219,11 +275,15 @@ Before you begin, ensure you have:
    PAYPAL_CLIENT_ID=your_paypal_client_id
    PAYPAL_CLIENT_SECRET=your_paypal_client_secret
    PAYPAL_MODE=sandbox # or "live"
+
+   # Security & Monitoring (Optional but recommended)
+   SENTRY_DSN=your_sentry_dsn # For error monitoring
+   ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com # CORS
    ```
 
 4. **Set up Supabase database**
    
-   Run migrations to create tables:
+   Run migrations to create all tables (marketplace, learning hub, collaboration):
    ```bash
    # Install Supabase CLI
    npm install -g supabase
@@ -231,9 +291,15 @@ Before you begin, ensure you have:
    # Link to your project
    supabase link --project-ref your_project_ref
 
-   # Run migrations
+   # Run all migrations (36 total)
    supabase db push
    ```
+
+   This will create:
+   - Core tables (users, projects, subscriptions, payments)
+   - Marketplace tables (apps, purchases, reviews)
+   - Learning Hub tables (courses, lessons, challenges, certificates)
+   - Collaboration tables (rooms, participants, shared code)
 
 5. **Deploy Edge Functions** (optional)
    ```bash
@@ -258,7 +324,45 @@ Before you begin, ensure you have:
 
 ---
 
-## 📂 Project Structure
+## � Usage Examples
+
+### **Generate a Project**
+1. Sign up and log in to AfriNova
+2. Click "Create New Project" in the dashboard
+3. Choose a template or describe your app (e.g., "E-commerce store for African fashion")
+4. Select integrations (payments, auth, database)
+5. Click "Generate" - AI creates your full-stack app in ~2 minutes
+6. Download the code and deploy to Vercel
+
+### **Browse the Marketplace**
+1. Navigate to `/marketplace` from the dashboard
+2. Browse 12+ ready-to-use templates
+3. Filter by category, price, or rating
+4. Click "Purchase" on any app
+5. Select your currency (auto-detected) or choose from 16 options
+6. Pay via M-Pesa, card, or other methods
+7. Download source code immediately after payment
+
+### **Take a Course**
+1. Visit `/learn` from the dashboard
+2. Choose a course (Next.js Fundamentals, React Advanced, TypeScript)
+3. Complete interactive lessons and coding challenges
+4. Earn XP points and unlock achievements
+5. Compete on the leaderboard
+6. Get your certificate when you finish (format: AF-XXXX-YYYY)
+
+### **Start a Collaboration Session**
+1. Go to `/collab` from the dashboard
+2. Click "Create Room" or join with a room code
+3. Share the room link with teammates
+4. Code together in real-time with live cursors
+5. Use built-in voice chat for communication
+6. Get AI suggestions as you code
+7. Vote on AI suggestions with your team
+
+---
+
+## �📂 Project Structure
 
 ```
 AfriNova-App/
@@ -285,8 +389,26 @@ AfriNova-App/
 │   ├── contact/                      # Contact page
 │   ├── privacy/                      # Privacy policy
 │   ├── terms/                        # Terms & conditions
+│   ├── marketplace/                  # App marketplace
+│   │   ├── page.tsx                  # Marketplace home
+│   │   ├── [appSlug]/                # App detail page
+│   │   ├── my-purchases/             # User's purchased apps
+│   │   └── publish/                  # Publish new app
+│   ├── learn/                        # Learning Hub
+│   │   ├── page.tsx                  # Courses list
+│   │   ├── [courseSlug]/             # Course detail & lessons
+│   │   ├── certificates/             # User certificates
+│   │   └── leaderboard/              # XP leaderboard
+│   ├── collab/                       # Real-time collaboration
+│   │   ├── page.tsx                  # Collaboration rooms
+│   │   └── [roomId]/                 # Live coding room
 │   └── api/                          # API routes
-│       └── welcome-email/            # Welcome email endpoint
+│       ├── welcome-email/            # Welcome email endpoint
+│       ├── marketplace/
+│       │   └── purchase/             # Initiate app purchase
+│       └── pesapal/
+│           ├── callback/             # Payment redirect handler
+│           └── ipn/                  # Payment webhook (IPN)
 ├── components/                       # React components
 │   ├── auth/                         # Authentication components
 │   │   ├── login-form.tsx
@@ -331,12 +453,21 @@ AfriNova-App/
 │   │   ├── languages.ts              # Supported languages
 │   │   └── translations.ts           # Translation strings
 │   └── utils/                        # Utility functions
-│       └── code-downloader.ts        # Code export utility
+│       ├── code-downloader.ts        # Code export utility
+│       ├── rate-limit.ts             # Rate limiting (5/min purchases, 30/min API)
+│       ├── error-monitoring.ts       # Centralized error logging
+│       └── cors.ts                   # CORS + security headers
 ├── supabase/                         # Supabase configuration
 │   ├── migrations/                   # Database migrations
 │   │   ├── 20240101000000_initial_schema.sql
 │   │   ├── 20240102000000_add_subscriptions.sql
-│   │   └── ... (20+ migrations)
+│   │   ├── 20251121000000_create_collaboration_tables.sql
+│   │   ├── 20251121010000_create_learning_tables.sql
+│   │   ├── 20251121020000_seed_courses.sql
+│   │   ├── 20251121030000_create_marketplace_tables.sql
+│   │   ├── 20251121040000_seed_marketplace_apps.sql
+│   │   ├── 20251121050000_update_marketplace_currency.sql
+│   │   └── ... (36 migrations total)
 │   └── functions/                    # Edge Functions (Deno)
 │       ├── generate-code/            # AI code generation
 │       ├── send-email/               # Email sending
@@ -354,6 +485,152 @@ AfriNova-App/
 ├── middleware.ts                     # Next.js middleware (auth)
 ├── next.config.js                    # Next.js configuration
 ├── tailwind.config.ts                # Tailwind CSS configuration
+├── tsconfig.json                     # TypeScript configuration
+├── package.json                      # Dependencies & scripts
+└── README.md                         # This file
+```
+
+---
+
+## 🔌 API Routes
+
+### **Marketplace APIs**
+
+#### `POST /api/marketplace/purchase`
+Initiates an app purchase with Pesapal payment gateway.
+
+**Rate Limit:** 5 requests/minute per IP
+
+**Request Body:**
+```json
+{
+  "appId": "uuid",
+  "currency": "USD" // Optional, auto-detected from IP
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "redirect_url": "https://pay.pesapal.com/...",
+  "order_tracking_id": "ORDER-123-456",
+  "purchase_id": "uuid"
+}
+```
+
+**Features:**
+- Automatic currency detection (16 currencies supported)
+- Real-time exchange rate conversion
+- Duplicate purchase prevention
+- Free app instant access
+
+#### `GET /api/pesapal/callback`
+Handles payment redirects after Pesapal checkout.
+
+**Query Parameters:**
+- `OrderTrackingId` - Pesapal order ID
+- `OrderMerchantReference` - Purchase ID
+
+**Redirects:**
+- Success: `/marketplace/my-purchases?success=true`
+- Failed: `/marketplace/my-purchases?error=payment_failed`
+- Invalid: `/marketplace/my-purchases?error=invalid_payment`
+
+#### `GET/POST /api/pesapal/ipn`
+Receives asynchronous payment notifications from Pesapal.
+
+**Rate Limit:** 100 requests/minute
+
+**Query Parameters:**
+- `OrderTrackingId` - Pesapal order ID
+- `OrderMerchantReference` - Purchase ID
+- `OrderNotificationType` - Notification type
+
+**Features:**
+- Idempotent design (safe to call multiple times)
+- Automatic status verification
+- Purchase record updates
+- Always returns 200 OK
+
+---
+
+## 🗄️ Database Schema
+
+### **Core Tables**
+- `users` - User accounts & profiles
+- `projects` - Generated web applications
+- `subscriptions` - User subscription plans
+- `payments` - Payment transactions
+
+### **Marketplace Tables**
+- `marketplace_apps` - Published apps for sale
+- `app_categories` - App categorization
+- `app_purchases` - Purchase records with Pesapal integration
+- `app_reviews` - User ratings & reviews
+
+### **Learning Hub Tables**
+- `courses` - Coding courses (web dev, mobile, backend)
+- `lessons` - Course lessons with content
+- `challenges` - Interactive coding challenges
+- `user_progress` - XP tracking & course completion
+- `achievements` - Unlockable badges
+- `certificates` - Generated certificates (AF-XXXX-YYYY format)
+
+### **Collaboration Tables**
+- `collaboration_rooms` - Live coding sessions
+- `room_participants` - Room members with cursor colors
+- `shared_code` - Real-time code state
+- `ai_suggestions` - AI-powered code suggestions with voting
+
+---
+
+## 🔐 Security & Performance
+
+### **Rate Limiting**
+- **Purchase API:** 5 requests/minute per IP
+- **General APIs:** 30 requests/minute per IP
+- **Webhooks:** 100 requests/minute per IP
+- Returns `429 Too Many Requests` with `Retry-After` header
+
+### **Security Headers**
+- **CSP:** Content Security Policy
+- **XSS Protection:** Blocks cross-site scripting
+- **X-Frame-Options:** Prevents clickjacking
+- **HSTS:** Enforces HTTPS
+- **X-Content-Type-Options:** Prevents MIME sniffing
+
+### **Error Monitoring**
+- Centralized logging system
+- Severity levels: `info`, `warning`, `error`, `critical`
+- Performance metrics tracking
+- Health check endpoints
+- Sentry-ready integration
+
+### **CORS Configuration**
+- Domain whitelisting
+- Preflight request handling
+- Production & development modes
+- Secure credential handling
+
+---
+
+## 💰 Supported Currencies & Payment Methods
+
+### **16 Currencies**
+USD (base), KES, TZS, UGX, RWF, EUR, GBP, ZAR, NGN, EGP, INR, CNY, JPY, BRL, AED, SAR
+
+### **Payment Methods (via Pesapal)**
+- 📱 M-Pesa (Kenya)
+- 📱 Airtel Money (East Africa)
+- 📱 Tigo Pesa (Tanzania)
+- 💳 Visa
+- 💳 Mastercard
+- 🏦 Bank transfers
+
+**Exchange Rates:** Real-time conversion using exchangerate-api.com
+
+
 ├── tsconfig.json                     # TypeScript configuration
 ├── package.json                      # Dependencies
 ├── .env.example                      # Environment variables template
@@ -416,6 +693,62 @@ Download your complete codebase and deploy to Vercel, Netlify, or any hosting pl
 
 ### **Code Ownership**
 **You own 100% of the generated code.** No royalties, no restrictions. Use it commercially, modify it, resell it—it's yours forever.
+
+---
+
+## 🚀 Deployment
+
+### **Deploy to Vercel** (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/SyncSphere7/AfriNova-App)
+
+1. Click the button above or go to [Vercel](https://vercel.com/)
+2. Import your GitHub repository
+3. Add environment variables from `.env.local`
+4. Click "Deploy"
+
+**Important Environment Variables:**
+- `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon key
+- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key
+- `OPENROUTER_API_KEY` - OpenRouter API key
+- `RESEND_API_KEY` - Resend email API key
+- `PESAPAL_CONSUMER_KEY` - Pesapal consumer key (for marketplace)
+- `PESAPAL_CONSUMER_SECRET` - Pesapal consumer secret
+- `PESAPAL_ENVIRONMENT` - `sandbox` or `live`
+- `EXCHANGE_RATE_API_KEY` - Exchange rate API key
+- `NEXT_PUBLIC_PESAPAL_IPN_URL` - Your domain + `/api/pesapal/ipn`
+- `NEXT_PUBLIC_PESAPAL_CALLBACK_URL` - Your domain + `/api/pesapal/callback`
+
+### **Deploy to Other Platforms**
+
+**Netlify:**
+```bash
+npm run build
+netlify deploy --prod
+```
+
+**Railway:**
+```bash
+railway up
+```
+
+**Docker:**
+```bash
+docker build -t afrinova-app .
+docker run -p 3000:3000 afrinova-app
+```
+
+### **Post-Deployment Checklist**
+
+✅ Set up Supabase database (run migrations)  
+✅ Configure Pesapal IPN webhook URL in dashboard  
+✅ Test payment flow in sandbox mode  
+✅ Set up custom domain (optional)  
+✅ Enable CORS for your domain  
+✅ Configure Sentry for error monitoring (optional)  
+✅ Test all features (auth, marketplace, learning, collab)  
+✅ Switch to production mode (`PESAPAL_ENVIRONMENT=live`)
 
 ---
 
@@ -486,7 +819,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - ✅ 160+ integrations
 - ✅ 7 payment gateways
 - ✅ Multi-language support
-- 🔄 Real-time collaboration
+- ✅ Real-time collaboration (Live code editor + voice chat)
+- ✅ App Marketplace (Buy/sell apps with 16 currencies)
+- ✅ Learning Hub (Gamified courses + certificates)
+- ✅ Production security (Rate limiting + monitoring)
 - 🔄 API access for developers
 
 ### **Q2 2025**
@@ -494,7 +830,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 🔌 Custom integrations builder
 - 🎨 Visual code editor
 - 🌐 CDN-hosted project demos
-- 🤖 AI pair programming (live chat)
+- 🤖 AI pair programming enhancements
 
 ### **Q3 2025**
 - 🏢 Team workspaces (unlimited users)
@@ -507,8 +843,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 🌍 Expansion to 20+ African countries
 - 🎤 Voice-to-code (natural language)
 - 🧠 AI agents that learn from your codebase
-- 🏆 Marketplace for selling templates
+- 📱 Mobile apps for iOS & Android
 - 🌐 Decentralized code generation (Web3)
+- 🎓 Advanced developer certification program
 
 ---
 
