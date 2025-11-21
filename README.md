@@ -42,20 +42,20 @@ Build iOS & Android apps with AI-powered code generation:
 
 ### 🤖 **10 Specialized AI Agents**
 
-AfriNova doesn't just use one AI model—it leverages **10 specialized AI agents**, each optimized for specific tasks:
+AfriNova doesn't just use one AI model—it leverages **10 specialized AI agents**, each optimized for specific tasks using state-of-the-art language models:
 
-| **Agent** | **Model** | **Specialization** | **Context** |
-|-----------|-----------|-------------------|-------------|
-| 🎨 **Frontend Agent** | Claude 3.5 Sonnet | React, Next.js, UI/UX design, responsive layouts | 200K tokens |
-| ⚙️ **Backend Agent** | DeepSeek R1 70B | APIs, server logic, authentication, business logic | 128K tokens |
-| 🗄️ **Database Agent** | DeepSeek R1 70B | Schema design, queries, migrations, optimization | 128K tokens |
-| 🎭 **UX/UI Agent** | Gemini 2.0 Flash | Design systems, accessibility, user flows | 1M tokens |
-| 💳 **Payment Agent** | DeepSeek R1 70B | Payment gateways, billing, invoices, subscriptions | 128K tokens |
-| 🔐 **Security Agent** | Qwen 2.5 Coder 32B | Security audits, authentication, encryption, compliance | 32K tokens |
-| 🧪 **Testing Agent** | Qwen 2.5 Coder 32B | Unit tests, integration tests, E2E tests | 32K tokens |
-| 🚀 **DevOps Agent** | Gemini 2.0 Flash | CI/CD, deployment, monitoring, infrastructure | 1M tokens |
-| 📊 **Analytics Agent** | Gemini 2.0 Flash | Analytics integration, tracking, reporting | 1M tokens |
-| 🔌 **Integrations Agent** | Claude 3.5 Sonnet | Third-party APIs, webhooks, OAuth | 200K tokens |
+| **Agent** | **Specialization** | **Key Features** |
+|-----------|-------------------|------------------|
+| 🎨 **Frontend Agent** | React, Next.js, UI/UX design, responsive layouts | Type-safe components, accessibility, modern styling |
+| ⚙️ **Backend Agent** | APIs, server logic, authentication, business logic | RESTful APIs, GraphQL, serverless functions |
+| 🗄️ **Database Agent** | Schema design, queries, migrations, optimization | SQL/NoSQL, migrations, indexing strategies |
+| 🎭 **UX/UI Agent** | Design systems, accessibility, user flows | WCAG compliance, responsive design, user research |
+| 💳 **Payment Agent** | Payment gateways, billing, invoices, subscriptions | PCI-DSS compliant, multi-gateway support |
+| 🔐 **Security Agent** | Security audits, authentication, encryption, compliance | OWASP Top 10, JWT, OAuth 2.0, GDPR |
+| 🧪 **Testing Agent** | Unit tests, integration tests, E2E tests | Jest, Vitest, Playwright, Cypress |
+| 🚀 **DevOps Agent** | CI/CD, deployment, monitoring, infrastructure | Docker, Kubernetes, CI/CD pipelines |
+| 📊 **Analytics Agent** | Analytics integration, tracking, reporting | Google Analytics, Mixpanel, custom dashboards |
+| 🔌 **Integrations Agent** | Third-party APIs, webhooks, OAuth | 160+ integrations, API documentation |
 
 ### 🎯 **Smart Features**
 
@@ -200,11 +200,11 @@ Enterprise-grade security features:
 - 🔒 **Row Level Security (RLS)** - Database-level authorization
 
 ### **AI & Machine Learning**
-- 🤖 **OpenRouter API** - Access to 200+ AI models
-- 🧠 **Claude 3.5 Sonnet** - Advanced reasoning (Anthropic)
-- 🚀 **DeepSeek R1 70B** - Fast code generation (FREE)
-- 💎 **Qwen 2.5 Coder 32B** - Security & testing (Alibaba)
-- ⚡ **Gemini 2.0 Flash** - Multi-modal AI (Google)
+- 🤖 **Advanced AI Models** - State-of-the-art language models optimized for code generation
+- 🧠 **Multi-Model Architecture** - Intelligent routing to best model for each task
+- 🚀 **Ultra-Fast Generation** - Optimized inference for rapid code generation
+- 💎 **Enterprise-Grade Quality** - Production-ready code with best practices
+- ⚡ **Context-Aware** - Up to 1M token context windows for complex projects
 
 ### **Payments**
 - 💳 **Pesapal** - East Africa mobile money & cards
@@ -695,12 +695,28 @@ Download your complete codebase and deploy to Vercel, Netlify, or any hosting pl
 
 ## 💰 Pricing
 
+### **Platform Plans** (Web Dashboard)
+
 | **Plan** | **Price** | **Features** | **Best For** |
 |----------|-----------|--------------|--------------|
 | 🆓 **Free** | $0/month | • 3 projects<br>• Basic templates<br>• Community support<br>• 50 AI generations/month | Hobbyists & learners |
 | 🚀 **Starter** | $15/month | • 10 projects<br>• All templates<br>• Email support<br>• 200 AI generations/month<br>• Priority generation | Freelancers |
 | 📈 **Growth** | $35/month | • 50 projects<br>• Custom templates<br>• Priority support<br>• 1,000 AI generations/month<br>• Team collaboration (3 users) | Small teams |
-| 💎 **Pro** | $75/month | • Unlimited projects<br>• Custom integrations<br>• 24/7 support<br>• Unlimited AI generations<br>• Team collaboration (10 users)<br>• White-label option<br>• API access | Agencies & enterprises |
+| 💎 **Pro** | $75/month | • Unlimited projects<br>• Custom integrations<br>• 24/7 support<br>• Unlimited AI generations<br>• Team collaboration (10 users)<br>• White-label option<br>• **API access** | Agencies & enterprises |
+
+### **API Plans** (Programmatic Access)
+
+Generate code directly from your applications with our RESTful API:
+
+| **Plan** | **Price** | **Credits/Month** | **Features** |
+|----------|-----------|-------------------|--------------|
+| 🆓 **API Free** | $0/month | 100 credits | • Rate limit: 10 req/min<br>• Community support<br>• Basic features |
+| 🚀 **API Starter** | $29/month | 1,000 credits | • Rate limit: 30 req/min<br>• Email support<br>• All integrations |
+| 📈 **API Growth** | $79/month | 5,000 credits | • Rate limit: 100 req/min<br>• Priority support<br>• Advanced features |
+| 💎 **API Pro** | $199/month | 20,000 credits | • Rate limit: 500 req/min<br>• 24/7 support<br>• Dedicated Slack channel |
+| 🏢 **Enterprise** | Custom | Custom | • Custom rate limits<br>• SLA guarantee<br>• Dedicated account manager |
+
+**📖 [View Full API Pricing & Documentation](API_PRICING.md)**
 
 **💳 Payment Methods**: Visa, Mastercard, PayPal, M-Pesa, Airtel Money, MTN Mobile Money
 
